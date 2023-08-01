@@ -1,12 +1,14 @@
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-import { app, screen, BrowserWindow, Menu, MenuItem } from 'electron';
+import { app, screen, BrowserWindow, Menu, Tray } from 'electron';
+import icon from 'eliconTemplate.png';
+import path from 'path';
 
 
 const ctxMenuTemplate = [
-  { label: 'option1'},
-  { label: 'option2'},
-  { label: 'option3'},
+  { label: 'option1' },
+  { label: 'option2' },
+  { label: 'option3' },
 ]
 const ctxMenu = new Menu.buildFromTemplate(ctxMenuTemplate);
 
@@ -21,7 +23,7 @@ const createMenu = () => {
         },
         {
           role: 'services'
-        }, 
+        },
         {
           role: 'hide'
         },
@@ -47,7 +49,6 @@ const createMenu = () => {
 };
 
 const createWindow = (width, height) => {
-
   let window = new BrowserWindow({
     minWidth: 400,
     minHeight: 400,
@@ -55,10 +56,33 @@ const createWindow = (width, height) => {
     height: 800,
     maxHeight: height,
     maxWidth: width,
-    show: false,
+    show: false, 
     backgroundColor: '#778beb',
     titleBarStyle: 'hidden',
   });
+
+  const tray = new Tray(path.resolve(__dirname, icon));
+
+  tray.setToolTip('Hey bro!');
+
+  
+
+  const trayMenu = new Menu.buildFromTemplate([
+    {
+      label: 'show/hide',
+      click() {
+        window.isVisible() ? window.hide() : window.show();
+      }
+    },
+    {
+      role: 'quit'
+    },
+  ]);
+
+  tray.setContextMenu(trayMenu);
+
+
+  
 
   window.loadFile('renderer/index.html');
   window.webContents.openDevTools();
