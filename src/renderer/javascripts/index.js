@@ -1,7 +1,25 @@
-import 'application.css'
+import 'application.css';
+const {ipcRenderer} = require('electron');
 
-window.MessagesAPI?.onLoaded((_, data) => {
-  document.getElementById('title').innerHTML = data.appName + ' App'
-  document.getElementById('details').innerHTML = 'built with Electron v' + data.electronVersion
-  document.getElementById('versions').innerHTML = 'running on Node v' + data.nodeVersion + ' and Chromium v' + data.chromiumVersion
-})
+
+ipcRenderer.on('mainchannel', (_, data) => {
+  alert(data.message);
+});
+
+const loadAndDisplayData = () => {
+  loadData().then(data => {
+    document.getElementById('message').innerHTML = data.number
+  });
+};
+
+const loadData = () => {
+  return new Promise((res, rej) => {
+    ipcRenderer.send('loaddata');
+    ipcRenderer.once('data', (_, data) => res(data))
+  })
+};
+
+window.onload = () => {
+  const action = document.getElementById('action');
+  action.addEventListener('click', loadAndDisplayData);
+}

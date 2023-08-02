@@ -116,7 +116,17 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
   \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var application_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! application.css */ \"./src/renderer/stylesheets/application.css\");\n\n\nwindow.MessagesAPI?.onLoaded((_, data) => {\n  document.getElementById('title').innerHTML = data.appName + ' App'\n  document.getElementById('details').innerHTML = 'built with Electron v' + data.electronVersion\n  document.getElementById('versions').innerHTML = 'running on Node v' + data.nodeVersion + ' and Chromium v' + data.chromiumVersion\n})\n\n\n//# sourceURL=webpack://ElDa/./src/renderer/javascripts/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var application_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! application.css */ \"./src/renderer/stylesheets/application.css\");\n\nconst {ipcRenderer} = __webpack_require__(/*! electron */ \"electron\");\n\n\nipcRenderer.on('mainchannel', (_, data) => {\n  alert(data.message);\n});\n\nconst loadAndDisplayData = () => {\n  loadData().then(data => {\n    document.getElementById('message').innerHTML = data.number\n  });\n};\n\nconst loadData = () => {\n  return new Promise((res, rej) => {\n    ipcRenderer.send('loaddata');\n    ipcRenderer.once('data', (_, data) => res(data))\n  })\n};\n\nwindow.onload = () => {\n  const action = document.getElementById('action');\n  action.addEventListener('click', loadAndDisplayData);\n}\n\n//# sourceURL=webpack://ElDa/./src/renderer/javascripts/index.js?");
+
+/***/ }),
+
+/***/ "electron":
+/*!***************************!*\
+  !*** external "electron" ***!
+  \***************************/
+/***/ ((module) => {
+
+module.exports = require("electron");
 
 /***/ })
 

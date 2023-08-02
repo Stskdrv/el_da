@@ -1,6 +1,6 @@
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-import { app, screen, BrowserWindow, Menu, Tray } from 'electron';
+import { app, screen, BrowserWindow, Menu, Tray, ipcMain } from 'electron';
 import icon from 'eliconTemplate.png';
 import path from 'path';
 
@@ -56,16 +56,19 @@ const createWindow = (width, height) => {
     height: 800,
     maxHeight: height,
     maxWidth: width,
-    show: false, 
+    show: false,
     backgroundColor: '#778beb',
     titleBarStyle: 'hidden',
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
   });
 
   const tray = new Tray(path.resolve(__dirname, icon));
 
   tray.setToolTip('Hey bro!');
 
-  
 
   const trayMenu = new Menu.buildFromTemplate([
     {
@@ -82,10 +85,14 @@ const createWindow = (width, height) => {
   tray.setContextMenu(trayMenu);
 
 
-  
+
 
   window.loadFile('renderer/index.html');
   window.webContents.openDevTools();
+
+  window.webContents.on('did-finish-load', () => {
+    window.webContents.send('mainchannel', { message: 'app is running' })
+  })
 
   window.on('ready-to-show', () => {
     window.show()
@@ -93,7 +100,14 @@ const createWindow = (width, height) => {
 
   window.webContents.on('context-menu', (e, params) => {
     ctxMenu.popup(window, params.x, params.y)
+  });
+
+
+  ipcMain.on('loaddata', () => {
+    const number = Math.random() * 10;
+    window.webContents.send('data', { number });
   })
+
 }
 
 app.on('ready', () => {
