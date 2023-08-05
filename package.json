@@ -8,6 +8,7 @@
   },
   "repository": {},
   "dependencies": {
+    "@electron/remote": "^2.0.10",
     "file-loader": "^6.2.0",
     "url-loader": "^4.1.1"
   },

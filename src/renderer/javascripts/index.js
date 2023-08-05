@@ -1,5 +1,9 @@
-import 'application.css';
+
 const {ipcRenderer} = require('electron');
+import 'application.css';
+const remote = require('@electron/remote');
+const { BrowserWindow } = remote;
+
 
 
 ipcRenderer.on('mainchannel', (_, data) => {
@@ -19,7 +23,19 @@ const loadData = () => {
   })
 };
 
+
 window.onload = () => {
   const action = document.getElementById('action');
-  action.addEventListener('click', loadAndDisplayData);
-}
+  action.addEventListener('click', () => {
+    let win = new BrowserWindow({
+      width: 500,
+      height: 500,
+    });
+    // dialog.showMessageBox({message: 'You have clicked here!?'})
+  });
+};
+
+// window.onload = () => {
+//   const action = document.getElementById('action');
+//   action.addEventListener('click', loadAndDisplayData);
+// }

@@ -1,8 +1,10 @@
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-import { app, screen, BrowserWindow, Menu, Tray, ipcMain } from 'electron';
+import { app, screen, BrowserWindow, Menu, Tray, ipcMain, remote, dialog } from 'electron';
 import icon from 'eliconTemplate.png';
 import path from 'path';
+const remoteMain = require('@electron/remote/main');
+remoteMain.initialize();
 
 
 const ctxMenuTemplate = [
@@ -84,9 +86,6 @@ const createWindow = (width, height) => {
 
   tray.setContextMenu(trayMenu);
 
-
-
-
   window.loadFile('renderer/index.html');
   window.webContents.openDevTools();
 
@@ -106,9 +105,13 @@ const createWindow = (width, height) => {
   ipcMain.on('loaddata', () => {
     const number = Math.random() * 10;
     window.webContents.send('data', { number });
-  })
+  });
 
+
+  remoteMain.enable(window.webContents)
 }
+
+
 
 app.on('ready', () => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
