@@ -16,7 +16,7 @@
   \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! electron */ \"electron\");\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(electron__WEBPACK_IMPORTED_MODULE_0__);\n// https://electronjs.org/docs/tutorial/security\n// Preload File that should be loaded into browser window instead of\n// setting nodeIntegration: true for browser window\n\n\n\nelectron__WEBPACK_IMPORTED_MODULE_0__.contextBridge.exposeInMainWorld('MessagesAPI', {\n  onLoaded: callback => {\n    electron__WEBPACK_IMPORTED_MODULE_0__.ipcRenderer.on('loaded', callback)\n  }\n})\n\n\n//# sourceURL=webpack://ElDa/./src/preload/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! electron */ \"electron\");\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(electron__WEBPACK_IMPORTED_MODULE_0__);\n\n\nwindow.openURL = url => {\n  electron__WEBPACK_IMPORTED_MODULE_0__.shell.openExternal(url);\n};\n\n//# sourceURL=webpack://ElDa/./src/preload/index.js?");
 
 /***/ }),
 

@@ -85,6 +85,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
+/***/ "./node_modules/webpack-inject-plugin/dist/webpack-inject-plugin.loader.js?id=webpack-inject-module-1!":
+/*!*************************************************************************************************************!*\
+  !*** ./node_modules/webpack-inject-plugin/dist/webpack-inject-plugin.loader.js?id=webpack-inject-module-1! ***!
+  \*************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+eval("(()=>{\"use strict\";var e={n:r=>{var o=r&&r.__esModule?()=>r.default:()=>r;return e.d(o,{a:o}),o},d:(r,o)=>{for(var t in o)e.o(o,t)&&!e.o(r,t)&&Object.defineProperty(r,t,{enumerable:!0,get:o[t]})},o:(e,r)=>Object.prototype.hasOwnProperty.call(e,r),r:e=>{\"undefined\"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:\"Module\"}),Object.defineProperty(e,\"__esModule\",{value:!0})}},r={};e.r(r);const o=__webpack_require__(/*! electron */ \"electron\"),t=__webpack_require__(/*! fs */ \"fs\");var n=e.n(t);const a=__webpack_require__(/*! path */ \"path\");var l=e.n(a),d=[];o.app.on(\"browser-window-created\",((e,r)=>{d.push(r),r.on(\"closed\",(()=>{console.log(d.indexOf(r)),d.splice(d.indexOf(r),1)}))})),n().watch(l().resolve(__dirname,\"..\",\"renderer\"),{},(()=>{Object.values(d).forEach((e=>{e&&e.webContents.reloadIgnoringCache()}))})),module.exports=r})();\n\n//# sourceURL=webpack://ElDa/?./node_modules/webpack-inject-plugin/dist/webpack-inject-plugin.loader.js?id=webpack-inject-module-1");
+
+/***/ }),
+
 /***/ "./src/main/index.js":
 /*!***************************!*\
   !*** ./src/main/index.js ***!
@@ -92,7 +102,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! electron */ \"electron\");\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(electron__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var eliconTemplate_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! eliconTemplate.png */ \"./resources/eliconTemplate.png\");\n/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! path */ \"path\");\n/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_2__);\n// In this file you can include the rest of your app's specific main process\n// code. You can also put them in separate files and require them here.\n\n\n\nconst remoteMain = __webpack_require__(/*! @electron/remote/main */ \"./node_modules/@electron/remote/main/index.js\");\nremoteMain.initialize();\n\n\nconst ctxMenuTemplate = [\n  { label: 'option1' },\n  { label: 'option2' },\n  { label: 'option3' },\n]\nconst ctxMenu = new electron__WEBPACK_IMPORTED_MODULE_0__.Menu.buildFromTemplate(ctxMenuTemplate);\n\n\nconst createMenu = () => {\n  const menu = new electron__WEBPACK_IMPORTED_MODULE_0__.Menu.buildFromTemplate([\n    {\n      label: 'el_da',\n      submenu: [\n        {\n          role: 'about'\n        },\n        {\n          role: 'services'\n        },\n        {\n          role: 'hide'\n        },\n        {\n          label: 'Option 1',\n          click() {\n            console.log('Option 1 clicked')\n          }\n        },\n      ]\n    },\n    {\n      label: 'Quit',\n      submenu: [\n        {\n          role: 'quit'\n        },\n      ]\n    }\n  ]);\n\n  electron__WEBPACK_IMPORTED_MODULE_0__.Menu.setApplicationMenu(menu);\n};\n\nconst createWindow = (width, height) => {\n  let window = new electron__WEBPACK_IMPORTED_MODULE_0__.BrowserWindow({\n    minWidth: 400,\n    minHeight: 400,\n    width: 800,\n    height: 800,\n    maxHeight: height,\n    maxWidth: width,\n    show: false,\n    backgroundColor: '#778beb',\n    titleBarStyle: 'hidden',\n    webPreferences: {\n      nodeIntegration: true,\n      contextIsolation: false\n    }\n  });\n\n  const tray = new electron__WEBPACK_IMPORTED_MODULE_0__.Tray(path__WEBPACK_IMPORTED_MODULE_2___default().resolve(__dirname, eliconTemplate_png__WEBPACK_IMPORTED_MODULE_1__[\"default\"]));\n\n  tray.setToolTip('Hey bro!');\n\n\n  const trayMenu = new electron__WEBPACK_IMPORTED_MODULE_0__.Menu.buildFromTemplate([\n    {\n      label: 'show/hide',\n      click() {\n        window.isVisible() ? window.hide() : window.show();\n      }\n    },\n    {\n      role: 'quit'\n    },\n  ]);\n\n  tray.setContextMenu(trayMenu);\n\n  window.loadFile('renderer/index.html');\n  window.webContents.openDevTools();\n\n  window.webContents.on('did-finish-load', () => {\n    window.webContents.send('mainchannel', { message: 'app is running' })\n  })\n\n  window.on('ready-to-show', () => {\n    window.show()\n  });\n\n  window.webContents.on('context-menu', (e, params) => {\n    ctxMenu.popup(window, params.x, params.y)\n  });\n\n\n  electron__WEBPACK_IMPORTED_MODULE_0__.ipcMain.on('loaddata', () => {\n    const number = Math.random() * 10;\n    window.webContents.send('data', { number });\n  });\n\n\n  remoteMain.enable(window.webContents)\n}\n\n\n\nelectron__WEBPACK_IMPORTED_MODULE_0__.app.on('ready', () => {\n  const { width, height } = electron__WEBPACK_IMPORTED_MODULE_0__.screen.getPrimaryDisplay().workAreaSize;\n\n  createMenu();\n  createWindow(width, height);\n\n})\n\n//# sourceURL=webpack://ElDa/./src/main/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! electron */ \"electron\");\n/* harmony import */ var electron__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(electron__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var eliconTemplate_png__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! eliconTemplate.png */ \"./resources/eliconTemplate.png\");\n/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! path */ \"path\");\n/* harmony import */ var path__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_2__);\n// In this file you can include the rest of your app's specific main process\n// code. You can also put them in separate files and require them here.\n\n\n\nconst remoteMain = __webpack_require__(/*! @electron/remote/main */ \"./node_modules/@electron/remote/main/index.js\");\nremoteMain.initialize();\n\nelectron__WEBPACK_IMPORTED_MODULE_0__.ipcMain.on('offline', () => {\n  console.log('App is offline');\n});\n\nelectron__WEBPACK_IMPORTED_MODULE_0__.ipcMain.on('online', () => {\n  console.log('App is offline');\n});\n\nconst createWindow = (width, height) => {\n  let window = new electron__WEBPACK_IMPORTED_MODULE_0__.BrowserWindow({\n    minWidth: 400,\n    minHeight: 400,\n    width: 800,\n    height: 800,\n    maxHeight: height,\n    maxWidth: width,\n    show: false,\n    backgroundColor: '#778beb',\n    titleBarStyle: 'hidden',\n    webPreferences: {\n      preload: path__WEBPACK_IMPORTED_MODULE_2___default().join(electron__WEBPACK_IMPORTED_MODULE_0__.app.getAppPath(), 'preload', 'index.js'),\n      // contextIsolation: false\n    }\n  });\n\n  const tray = new electron__WEBPACK_IMPORTED_MODULE_0__.Tray(path__WEBPACK_IMPORTED_MODULE_2___default().resolve(__dirname, eliconTemplate_png__WEBPACK_IMPORTED_MODULE_1__[\"default\"]));\n\n  tray.setToolTip('Hey bro!');\n\n\n  const trayMenu = new electron__WEBPACK_IMPORTED_MODULE_0__.Menu.buildFromTemplate([\n    {\n      label: 'show/hide',\n      click() {\n        window.isVisible() ? window.hide() : window.show();\n      }\n    },\n    {\n      role: 'quit'\n    },\n  ]);\n\n  tray.setContextMenu(trayMenu);\n\n  window.loadFile('renderer/index.html');\n  window.webContents.openDevTools({ mode: 'detach' });\n\n  window.on('ready-to-show', () => {\n    window.show()\n  });\n\n}\n\n\n\nelectron__WEBPACK_IMPORTED_MODULE_0__.app.on('ready', () => {\n  const { width, height } = electron__WEBPACK_IMPORTED_MODULE_0__.screen.getPrimaryDisplay().workAreaSize;\n  createWindow(width, height);\n\n})\n\n//# sourceURL=webpack://ElDa/./src/main/index.js?");
 
 /***/ }),
 
@@ -115,6 +125,17 @@ module.exports = require("electron");
 
 "use strict";
 module.exports = require("events");
+
+/***/ }),
+
+/***/ "fs":
+/*!*********************!*\
+  !*** external "fs" ***!
+  \*********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("fs");
 
 /***/ }),
 
@@ -205,7 +226,8 @@ module.exports = require("path");
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	__webpack_require__("./node_modules/webpack-inject-plugin/dist/webpack-inject-plugin.loader.js?id=webpack-inject-module-1!");
 /******/ 	var __webpack_exports__ = __webpack_require__("./src/main/index.js");
 /******/ 	
 /******/ })()

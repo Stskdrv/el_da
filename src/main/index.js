@@ -6,49 +6,13 @@ import path from 'path';
 const remoteMain = require('@electron/remote/main');
 remoteMain.initialize();
 
+ipcMain.on('offline', () => {
+  console.log('App is offline');
+});
 
-const ctxMenuTemplate = [
-  { label: 'option1' },
-  { label: 'option2' },
-  { label: 'option3' },
-]
-const ctxMenu = new Menu.buildFromTemplate(ctxMenuTemplate);
-
-
-const createMenu = () => {
-  const menu = new Menu.buildFromTemplate([
-    {
-      label: 'el_da',
-      submenu: [
-        {
-          role: 'about'
-        },
-        {
-          role: 'services'
-        },
-        {
-          role: 'hide'
-        },
-        {
-          label: 'Option 1',
-          click() {
-            console.log('Option 1 clicked')
-          }
-        },
-      ]
-    },
-    {
-      label: 'Quit',
-      submenu: [
-        {
-          role: 'quit'
-        },
-      ]
-    }
-  ]);
-
-  Menu.setApplicationMenu(menu);
-};
+ipcMain.on('online', () => {
+  console.log('App is offline');
+});
 
 const createWindow = (width, height) => {
   let window = new BrowserWindow({
@@ -62,8 +26,8 @@ const createWindow = (width, height) => {
     backgroundColor: '#778beb',
     titleBarStyle: 'hidden',
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
+      preload: path.join(app.getAppPath(), 'preload', 'index.js'),
+      // contextIsolation: false
     }
   });
 
@@ -87,36 +51,18 @@ const createWindow = (width, height) => {
   tray.setContextMenu(trayMenu);
 
   window.loadFile('renderer/index.html');
-  window.webContents.openDevTools();
-
-  window.webContents.on('did-finish-load', () => {
-    window.webContents.send('mainchannel', { message: 'app is running' })
-  })
+  window.webContents.openDevTools({ mode: 'detach' });
 
   window.on('ready-to-show', () => {
     window.show()
   });
 
-  window.webContents.on('context-menu', (e, params) => {
-    ctxMenu.popup(window, params.x, params.y)
-  });
-
-
-  ipcMain.on('loaddata', () => {
-    const number = Math.random() * 10;
-    window.webContents.send('data', { number });
-  });
-
-
-  remoteMain.enable(window.webContents)
 }
 
 
 
 app.on('ready', () => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-
-  createMenu();
   createWindow(width, height);
 
 })
