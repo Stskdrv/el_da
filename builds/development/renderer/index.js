@@ -116,7 +116,7 @@ eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElem
   \*******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var application_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! application.css */ \"./src/renderer/stylesheets/application.css\");\n\n\nwindow.onload = () => {\n  const button = document.getElementById('action');\n  button.addEventListener('click', () => {\n    window.open('https://github.com');\n  })\n}\n\n//# sourceURL=webpack://ElDa/./src/renderer/javascripts/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var application_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! application.css */ \"./src/renderer/stylesheets/application.css\");\n\n\nwindow.onload = () => {\n  const button = document.getElementById('action');\n  button.addEventListener('click', () => {\n    window.open('https://github.com');\n  })\n\n  window.addEventListener('online', () => {\n    const alert = new Notification('My app', {\n      body: 'You are online'\n    });\n  })\n  window.addEventListener('offline', () => {\n    const alert = new Notification('My app', {\n      body: 'You are offline'\n    });\n  })\n\n}\n\n//# sourceURL=webpack://ElDa/./src/renderer/javascripts/index.js?");
 
 /***/ })
 

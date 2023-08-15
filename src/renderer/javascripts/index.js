@@ -5,4 +5,16 @@ window.onload = () => {
   button.addEventListener('click', () => {
     window.open('https://github.com');
   })
+
+  window.addEventListener('online', () => {
+    const alert = new Notification('My app', {
+      body: 'You are online'
+    });
+  })
+  window.addEventListener('offline', () => {
+    const alert = new Notification('My app', {
+      body: 'You are offline'
+    });
+  })
+
 }
