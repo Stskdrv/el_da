@@ -11,6 +11,11 @@ export default class TimerApp {
             title: CONFIG.name,
             width: CONFIG.width,
             height: CONFIG.height,
+            minWidth: CONFIG.width,
+            minHeight:  CONFIG.height,
+            maxHeight: CONFIG.height,
+            maxWidth: CONFIG.width,
+            titleBarStyle: 'hidden',
             webPreferences: {
                 worldSafeExecuteJavaScript: true,
             }

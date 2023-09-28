@@ -1,8 +1,13 @@
 import React from 'react';
+import New from './new';
+import Entries from './entries';
 
 const App = () => {
     return (
-        <h2>Hello World</h2>
+        <>
+        <New/>
+        <Entries/>
+        </>
     )
 };
 
