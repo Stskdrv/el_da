@@ -1,0 +1,39 @@
+.entry {
+    display: flex;
+    flex-direction: row;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.entry:hover {
+    background-color: lightgrey;
+    cursor: default;
+    transition: background-color .3s ease;
+}
+
+
+.entry .details {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+}
+
+.entry .actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1;
+}
+
+.entry .primary {
+    margin-bottom: 10px;
+}
+
+.entry .secondary {
+    font-style: 14px;
+    color: grey;
+}
+
+.entry .time {
+    color: grey;
+}
