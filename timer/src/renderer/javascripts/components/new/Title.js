@@ -8,6 +8,7 @@ const Title = () => {
                 cols='0'
                 rows='1'
                 placeholder="Start new activity!"
+                onChange={null}
             />
         </div>
     )
